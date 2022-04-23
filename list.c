@@ -4,49 +4,37 @@
 #include "list.h"
 
 
-List *listCreate() {
-    List *list = (List *) malloc(sizeof(List));
+/* inserts huffman node into sorted linked list */
+ListNode *listInsert(ListNode *list, HNode *data) {
+    ListNode *cur;
+    ListNode *prev;
 
-    if (list == NULL) {
+    ListNode *node = (ListNode *) malloc(sizeof(ListNode));
+    if (node == NULL) {
         perror("malloc");
         exit(EXIT_FAILURE);
     }
+    node->data = data;
+    node->next = NULL;
 
-    list->head = NULL;
-    list->size = 0;
-
-    return list;
-}
-
-
-/* inserts huffman node into sorted linked list */
-void listInsert(List *list, HNode *data) {
-    ListNode *cur;
-    ListNode *prev;
-    ListNode *node = listNodeCreate();
-
-    if (list->head == NULL) {
-        list->head = node;
-        list->head->data = data;
-        list->size++;
-        return;
+    if (list == NULL) {
+        return node;
     }
 
-    cur = list->head;
+    cur = list;
     prev = NULL;
     while (cur != NULL) {
         if (hnodeCompare(cur->data, node->data) < 0) {  /* cur < node */
             prev->next = node;
             node->next = cur;
-            list->size++;
-            return;
+            return list;
         }
         prev = cur;
         cur = cur->next;
     }
 
     prev->next = node;
-    list->size++;
+    return list;
 }
 
 
@@ -65,9 +53,15 @@ static ListNode *listNodeCreate() {
 }
 
 
-HNode *listRemoveHead(List *list) {
+HNode *listRemoveHead(ListNode *list) {
     HNode *node;
-    if (list->head->next != NULL) {
 
+    if (list == NULL) {
+        return NULL;
+    }
+
+    node = list->next;
+    free(list);
+    return node;
 }
 

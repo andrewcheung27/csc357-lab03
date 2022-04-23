@@ -6,8 +6,7 @@ typedef struct ListNode {
 } ListNode;
 
 
-typedef struct List {
-    ListNode *head;
-    int size;
-}
+ListNode *listInsert(ListNode *list, HNode *data);
+
+HNode *listRemoveHead(ListNode *list);
 

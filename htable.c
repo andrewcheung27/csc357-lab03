@@ -92,6 +92,8 @@ int main(int argc, char *argv[]) {
             newNode->left = node2;
             newNode->right = node1;
         }
+
+        listInsert(list, newNode);
     }
 
     /* traverse tree (list->head) to get codes, put codes into table */

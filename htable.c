@@ -1,5 +1,9 @@
-#include "htree.h"
 #include "list.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <getopt.h>
 
 #define NUM_CHARS 256
 
@@ -20,7 +24,7 @@ int main(int argc, char *argv[]) {
 
     int *charHistogram;
     HNode *hnode;
-    ListNode *hlist;
+    List *hlist;
 
     /* use getopt to make sure there are no options */
     while ((option = getopt(argc, argv, ":")) != -1) {
@@ -68,9 +72,11 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    while (hlist != NULL) {
+    while (hlist->head != NULL) {
         /* remove from hlist to get left and right, make new parent of
          * left and right */
+        hlist = NULL;
+    }
 
     return 0;
 }

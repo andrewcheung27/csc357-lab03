@@ -5,8 +5,15 @@ typedef struct ListNode {
     struct ListNode *next;
 } ListNode;
 
+typedef struct List {
+    ListNode *head;
+    int size;
+} List;
 
-ListNode *listInsert(ListNode *list, HNode *data);
 
-HNode *listRemoveHead(ListNode *list);
+List *listCreate();
+
+List *listInsert(List *list, HNode *data);
+
+HNode *listRemoveHead(List *list);
 

@@ -3,6 +3,9 @@
 
 #include "htree.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+
 
 /* compares nodes based on freq, then chr. returns positive if 
  * node1 > node2, negative if node1 < node2, 0 otherwise */

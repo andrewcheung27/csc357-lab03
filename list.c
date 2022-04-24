@@ -3,39 +3,8 @@
 
 #include "list.h"
 
-
-/* inserts huffman node into sorted linked list */
-ListNode *listInsert(ListNode *list, HNode *data) {
-    ListNode *cur;
-    ListNode *prev;
-
-    ListNode *node = (ListNode *) malloc(sizeof(ListNode));
-    if (node == NULL) {
-        perror("malloc");
-        exit(EXIT_FAILURE);
-    }
-    node->data = data;
-    node->next = NULL;
-
-    if (list == NULL) {
-        return node;
-    }
-
-    cur = list;
-    prev = NULL;
-    while (cur != NULL) {
-        if (hnodeCompare(cur->data, node->data) < 0) {  /* cur < node */
-            prev->next = node;
-            node->next = cur;
-            return list;
-        }
-        prev = cur;
-        cur = cur->next;
-    }
-
-    prev->next = node;
-    return list;
-}
+#include <stdio.h>
+#include <stdlib.h>
 
 
 static ListNode *listNodeCreate() {
@@ -52,16 +21,85 @@ static ListNode *listNodeCreate() {
     return node;
 }
 
-
-HNode *listRemoveHead(ListNode *list) {
-    HNode *node;
+List *listCreate() {
+    List *list = (List *) malloc(sizeof(List));
 
     if (list == NULL) {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
+
+    list->head = NULL;
+    list->size = 0;
+
+    return list;
+}
+
+
+/* inserts huffman node into sorted linked list */
+List *listInsert(List *list, HNode *data) {
+    ListNode *cur;
+    ListNode *prev;
+
+    ListNode *node = listNodeCreate();
+    node->data = data;
+
+    /* if list is NULL, create list and insert data */
+    if (list == NULL) {
+        list = listCreate();
+        list->head = node;
+        list->size++;
+        return list;
+    }
+
+    if (list->head == NULL) {
+        list->head = node;
+        list->size++;
+        return list;
+    }
+
+    cur = list->head;
+    prev = NULL;
+    while (cur != NULL) {
+        /* insert if cur < node */
+        if (hnodeCompare(cur->data, node->data) < 0) {
+            /* modify head if inserting to the beginning */
+            if (prev == NULL) {
+                list->head = node;
+                node->next = cur;
+                list->size++;
+                return list;
+            }
+
+            /* otherwise, insert like this */
+            prev->next = node;
+            node->next = cur;
+            list->size++;
+            return list;
+        }
+        prev = cur;
+        cur = cur->next;
+    }
+
+    prev->next = node;  /* add to the end */
+    list->size++;
+    return list;
+}
+
+
+HNode *listRemoveHead(List *list) {
+    ListNode *listnode;
+    HNode *hnode;
+
+    if (list == NULL || list->head == NULL) {
         return NULL;
     }
 
-    node = list->next;
-    free(list);
-    return node;
+    /* remove head ListNode, return HNode data that was removed */
+    listnode = list->head;
+    hnode = list->head->data;
+    list->head = list->head->next;
+    free(listnode);
+    return hnode;
 }
 

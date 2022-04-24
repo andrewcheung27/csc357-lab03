@@ -23,8 +23,10 @@ int main(int argc, char *argv[]) {
     FILE *file;
 
     int *charHistogram;
-    HNode *hnode;
-    List *hlist;
+    HNode *node1;
+    HNode *node2;
+    HNode *newNode;
+    List *list = NULL;
 
     /* use getopt to make sure there are no options */
     while ((option = getopt(argc, argv, ":")) != -1) {
@@ -65,19 +67,38 @@ int main(int argc, char *argv[]) {
     /* count characters, insert a huffman tree for each unique character
      * into the sorted list */
     countChars(file, charHistogram);
+    fclose(file);
     for (i = 0; i < NUM_CHARS; i++) {
         if (charHistogram[i] > 0) {
-            hnode = htreeInsert(NULL, charHistogram[i], i);
-            listInsert(hlist, hnode);
+            node1 = htreeInsert(NULL, charHistogram[i], i);
+            listInsert(list, node1);
         }
     }
 
-    while (hlist->head != NULL) {
-        /* remove from hlist to get left and right, make new parent of
-         * left and right */
-        hlist = NULL;
+    while (list->size > 1) {
+        node1 = listRemoveHead(list);
+        node2 = listRemoveHead(list);
+
+        /* newNode's freq is the sum of node1 and node2 freq,
+         * chr is the smaller of the two chrs for tiebreaking, 
+         * left is smaller node and right is larger node */
+        newNode = htreeInsert(NULL, node1->freq + node2->freq, 
+                node1->chr < node2->chr ? node1->chr : node2->chr);
+        if (hnodeCompare(node1, node2) < 0) {
+            newNode->left = node1;
+            newNode->right = node2;
+        }
+        else {
+            newNode->left = node2;
+            newNode->right = node1;
+        }
     }
 
+    /* traverse tree (list->head) to get codes, put codes into table */
+
+    /* cleanup */
+    free(charHistogram);
+    listDestroy(list);
     return 0;
 }
 

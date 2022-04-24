@@ -13,6 +13,8 @@ typedef struct List {
 
 List *listCreate();
 
+void listDestroy(List *list);
+
 List *listInsert(List *list, HNode *data);
 
 HNode *listRemoveHead(List *list);

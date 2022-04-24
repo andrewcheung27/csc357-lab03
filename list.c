@@ -36,6 +36,29 @@ List *listCreate() {
 }
 
 
+/* destroys list and all hnodes in it */
+void listDestroy(List *list) {
+    ListNode *node;
+    ListNode *temp;
+
+    if (list == NULL) {
+        return;
+    }
+
+    node = list->head;
+    while (node != NULL) {
+        temp = node;
+        htreeDestroy(temp->data);
+        node = node->next;
+        free(temp);
+
+        node = node->next;
+    }
+
+    free(list);
+}
+
+
 /* inserts huffman node into sorted linked list */
 List *listInsert(List *list, HNode *data) {
     ListNode *cur;
@@ -100,6 +123,7 @@ HNode *listRemoveHead(List *list) {
     hnode = list->head->data;
     list->head = list->head->next;
     free(listnode);
+    list->size--;
     return hnode;
 }
 

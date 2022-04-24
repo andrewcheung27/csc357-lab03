@@ -35,6 +35,17 @@ int hnodeCompare(HNode *node1, HNode *node2) {
 }
 
 
+void htreeDestroy(HNode *htree) {
+    if (htree == NULL) {
+        return;
+    }
+
+    htreeDestroy(htree->left);
+    htreeDestroy(htree->right);
+    free(htree);
+}
+
+
 HNode *htreeInsert(HNode *htree, int freq, char chr) {
     if (htree == NULL) {
         HNode *newNode = (HNode *) malloc(sizeof(HNode));

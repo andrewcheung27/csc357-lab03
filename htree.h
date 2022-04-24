@@ -8,5 +8,7 @@ typedef struct HNode {
 
 int hnodeCompare(HNode *node1, HNode *node2);
 
+void htreeDestroy(HNode *htree);
+
 HNode *htreeInsert(HNode *htree, int freq, char chr);
 

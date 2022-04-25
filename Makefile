@@ -26,3 +26,6 @@ htreeTests.o: htreeTests.c
 clean:
 	rm -f *.o
 
+upload:
+	scp -r ../csc357-lab03 acheun29@unix1.csc.calpoly.edu:csc357
+

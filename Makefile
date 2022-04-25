@@ -16,6 +16,13 @@ htree.o: htree.c
 list.o: list.c
 	$(CC) $(CFLAGS) -c -o list.o list.c
 
+tests: htreeTests.o htree.o
+	$(CC) $(CFLAGS) -o htreeTests htreeTests.o htree.o
+	./htreeTests
+
+htreeTests.o: htreeTests.c
+	$(CC) $(CFLAGS) -c -o htreeTests.o htreeTests.c
+
 clean:
 	rm -f *.o
 

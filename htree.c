@@ -65,12 +65,12 @@ HNode *htreeInsert(HNode *htree, int freq, char chr) {
 
     /* new node is less than current, go left */
     if (_hnodeCompare(htree, freq, chr) > 0) {
-        htree->left = htreeInsert(htree->left, chr, freq);
+        htree->left = htreeInsert(htree->left, freq, chr);
         return htree;
     }
 
     /* new node is greater than or equal to current, go right */
-    htree->right = htreeInsert(htree->right, chr, freq);
+    htree->right = htreeInsert(htree->right, freq, chr);
     return htree;
 }
 

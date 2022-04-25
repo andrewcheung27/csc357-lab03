@@ -58,8 +58,60 @@ void listDestroy(List *list) {
 
 
 /* inserts huffman node into sorted linked list, in ascending order
- * of frequency. if there's a tie, newest comes first */
+ * of frequency. if there's a tie, SMALLEST CHAR comes first */
 List *listInsert(List *list, HNode *data) {
+    ListNode *cur;
+    ListNode *prev;
+
+    ListNode *node = listNodeCreate();
+    node->data = data;
+
+    /* if list is NULL, create list and insert data */
+    if (list == NULL) {
+        list = listCreate();
+        list->head = node;
+        list->size++;
+        return list;
+    }
+
+    if (list->head == NULL) {
+        list->head = node;
+        list->size++;
+        return list;
+    }
+
+    cur = list->head;
+    prev = NULL;
+    while (cur != NULL) {
+        if (hnodeCompare(cur->data, node->data) >= 0) {
+        /* if (cur->data->freq >= node->data->freq) { */
+            /* modify head if inserting to the beginning */
+            if (prev == NULL) {
+                list->head = node;
+                node->next = cur;
+                list->size++;
+                return list;
+            }
+
+            /* otherwise, insert like this */
+            prev->next = node;
+            node->next = cur;
+            list->size++;
+            return list;
+        }
+        prev = cur;
+        cur = cur->next;
+    }
+
+    prev->next = node;  /* add to the end */
+    list->size++;
+    return list;
+}
+
+
+/* inserts huffman node into sorted linked list, in ascending order
+ * of frequency. if there's a tie, NEWEST comes first */
+List *listInsert2(List *list, HNode *data) {
     ListNode *cur;
     ListNode *prev;
 

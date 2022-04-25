@@ -80,7 +80,7 @@ int main(int argc, char *argv[]) {
     fclose(file);
     for (i = 0; i < NUM_CHARS; i++) {
         if (charHistogram[i] > 0) {
-            node1 = htreeInsert(NULL, charHistogram[i], i);
+            node1 = htreeCreate(charHistogram[i], i);
             listInsert(list, node1);
         }
     }
@@ -90,11 +90,11 @@ int main(int argc, char *argv[]) {
         node1 = listRemoveHead(list);
         node2 = listRemoveHead(list);
 
-        newNode = htreeInsert(NULL, node1->freq + node2->freq,
+        newNode = htreeCreate(node1->freq + node2->freq,
                               node1->chr < node2->chr ? node1->chr : node2->chr);
         newNode->left = node1;
         newNode->right = node2;
-        listInsert(list, newNode);
+        listInsert2(list, newNode);
     }
 
     /* traverse tree (list->head->data) to get codes for each character */

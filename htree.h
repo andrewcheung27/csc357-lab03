@@ -13,3 +13,4 @@ int hnodeCompare(HNode *node1, HNode *node2);
 HNode *htreeCreate(int freq, char chr);
 
 void htreeDestroy(HNode *htree);
+

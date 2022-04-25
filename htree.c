@@ -104,3 +104,4 @@ void htreeDestroy(HNode *htree) {
     htreeDestroy(htree->right);
     free(htree);
 }
+

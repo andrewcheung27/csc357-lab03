@@ -21,12 +21,13 @@ int createCodes(HNode *htree, char **codes, char *path, int len) {
 
     /* found a leaf, add code to codes and return 1 */
     if (htree->left == NULL && htree->right == NULL) {
+        path[len] = '\0';
         codes[(unsigned char) htree->chr] = path;
         return 1;
     }
 
-    leftPath = (char *) malloc(sizeof(char) * (len + 1));
-    rightPath = (char *) malloc(sizeof(char) * (len + 1));
+    leftPath = (char *) malloc(sizeof(char) * (len + 2));
+    rightPath = (char *) malloc(sizeof(char) * (len + 2));
     if (leftPath == NULL || rightPath == NULL) {
         perror("malloc");
         exit(EXIT_FAILURE);
@@ -109,15 +110,15 @@ HNode *htreeInsert(HNode *htree, int freq, char chr) {
 
         return newNode;
     }
-
+    
     /* new node is less than current, go left */
-    if (_hnodeCompare(htree, freq, chr) > 0) {
+    /* if (_hnodeCompare(htree, freq, chr) > 0) {
         htree->left = htreeInsert(htree->left, freq, chr);
         return htree;
-    }
+    } */
 
     /* new node is greater than or equal to current, go right */
-    htree->right = htreeInsert(htree->right, freq, chr);
+    /* htree->right = htreeInsert(htree->right, freq, chr); */
     return htree;
 }
 

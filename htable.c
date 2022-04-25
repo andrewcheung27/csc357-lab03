@@ -90,19 +90,10 @@ int main(int argc, char *argv[]) {
         node1 = listRemoveHead(list);
         node2 = listRemoveHead(list);
 
-        /* newNode's freq is the sum of node1 and node2 freq,
-         * chr is the smaller of the two chrs,
-         * left is smaller node, and right is larger node */
-        newNode = htreeInsert(NULL, node1->freq + node2->freq, 
-                node1->chr < node2->chr ? node1->chr : node2->chr);
-        if (hnodeCompare(node1, node2) < 0) {
-            newNode->left = node1;
-            newNode->right = node2;
-        }
-        else {
-            newNode->left = node2;
-            newNode->right = node1;
-        }
+        newNode = htreeInsert(NULL, node1->freq + node2->freq,
+                              node1->chr < node2->chr ? node1->chr : node2->chr);
+        newNode->left = node1;
+        newNode->right = node2;
         listInsert(list, newNode);
     }
 

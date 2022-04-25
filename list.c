@@ -51,8 +51,6 @@ void listDestroy(List *list) {
         htreeDestroy(temp->data);
         node = node->next;
         free(temp);
-
-        node = node->next;
     }
 
     free(list);

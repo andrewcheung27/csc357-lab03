@@ -2,7 +2,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include <getopt.h>
 
 #define NUM_CHARS 256
@@ -26,7 +25,7 @@ int main(int argc, char *argv[]) {
     HNode *node1;
     HNode *node2;
     HNode *newNode;
-    List *list = NULL;
+    List *list = listCreate();
 
     /* use getopt to make sure there are no options */
     while ((option = getopt(argc, argv, ":")) != -1) {
@@ -90,7 +89,6 @@ int main(int argc, char *argv[]) {
             newNode->left = node2;
             newNode->right = node1;
         }
-
         listInsert(list, newNode);
     }
 

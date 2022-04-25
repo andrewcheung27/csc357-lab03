@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -pedantic -ansi -g -O3
+CFLAGS = -Wall -pedantic -ansi -g -Og
 
 all: htable
 	make htable

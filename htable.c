@@ -52,8 +52,6 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    /* charHistogram is used to count how many of each character appear
-     * in the file. charHistogram[character] contains its frequency */
     charHistogram = (int *) malloc(sizeof(int) * NUM_CHARS);
     if (charHistogram == NULL) {
         perror("malloc");

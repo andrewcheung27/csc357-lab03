@@ -20,11 +20,8 @@ void printCodes(char **codes, int len) {
     int i;
 
     for (i = 0; i < len; i++) {
-        printf("i = %d, codes[i * sizeof(char *)] = %s\n", 
-                i,
-                codes[i * sizeof(char *)]);
-        if (codes[i * sizeof(char *)] != NULL) {
-            printf("0x%.2x: %s\n", i, codes[i * sizeof(char *)]);
+        if (codes[i] != NULL) {
+            printf("0x%.2x: %s\n", i, codes[i]);
         }
     }
 }
@@ -111,21 +108,17 @@ int main(int argc, char *argv[]) {
 
     /* traverse tree (list->head->data) to get codes for each character */
     codes = (char **) malloc(sizeof(char *) * codesLen);
-    printf("sizeof(char *) = %lu\n", sizeof(char *));
-    printf("codes size: %lu\n", sizeof(char *) * codesLen);
     for (i = 0; i < codesLen; i++) {
-        codes[i * sizeof(char *)] = NULL;
+        codes[i] = NULL;
     }
-    createCodes(list->head->data, codes, NULL, 0);
-    printf("A\n");
 
+    createCodes(list->head->data, codes, NULL, 0);
     printCodes(codes, codesLen);
-    printf("B\n");
 
     /* cleanup */
     for (i = 0; i < codesLen; i++) {
-        if (codes[i * sizeof(char *)] != NULL) {
-            free(codes[i * sizeof(char *)]);
+        if (codes[i] != NULL) {
+            free(codes[i]);
         }
     }
     free(codes);

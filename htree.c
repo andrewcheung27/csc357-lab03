@@ -21,7 +21,7 @@ int createCodes(HNode *htree, char **codes, char *path, int len) {
 
     /* found a leaf, add code to codes and return 1 */
     if (htree->left == NULL && htree->right == NULL) {
-        codes[(int) htree->chr * sizeof(char *)] = path;
+        codes[(unsigned char) htree->chr] = path;
         return 1;
     }
 

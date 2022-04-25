@@ -6,6 +6,8 @@ typedef struct HNode {
 } HNode;
 
 
+int createCodes(HNode *htree, char **codes, char *path, int len);
+
 int hnodeCompare(HNode *node1, HNode *node2);
 
 void htreeDestroy(HNode *htree);

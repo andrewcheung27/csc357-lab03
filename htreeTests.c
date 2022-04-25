@@ -90,8 +90,16 @@ void test2() {
 
 
 int main (void) {
+    int i;
+    char *j = "101";
+
     test1();
     test2();
+
+    for (i = 0; i < 256; i++) {
+        /* printf("0x%.2x\n", i); */
+        printf("0x%.2x: %s\n", i, j);
+    }
 
     printf("htreeTests: all tests passed\n");
     return 0;

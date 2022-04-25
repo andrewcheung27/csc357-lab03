@@ -16,12 +16,25 @@ void countChars(FILE *file, int *chars) {
 }
 
 
+void printCodes(char **codes, int len) {
+    int i;
+
+    for (i = 0; i < len; i++) {
+        if (codes[i * sizeof(char *)] != NULL) {
+            printf("0x%.2x: %s\n", i, codes[i * sizeof(char *)]);
+        }
+    }
+}
+
+
 int main(int argc, char *argv[]) {
     int option;
     int i;
     FILE *file;
 
     int *charHistogram;
+    char **codes;
+    int codesLen = NUM_CHARS;
     HNode *node1;
     HNode *node2;
     HNode *newNode;
@@ -71,14 +84,15 @@ int main(int argc, char *argv[]) {
             listInsert(list, node1);
         }
     }
+    free(charHistogram);
 
     while (list->size > 1) {
         node1 = listRemoveHead(list);
         node2 = listRemoveHead(list);
 
         /* newNode's freq is the sum of node1 and node2 freq,
-         * chr is the smaller of the two chrs for tiebreaking, 
-         * left is smaller node and right is larger node */
+         * chr is the smaller of the two chrs,
+         * left is smaller node, and right is larger node */
         newNode = htreeInsert(NULL, node1->freq + node2->freq, 
                 node1->chr < node2->chr ? node1->chr : node2->chr);
         if (hnodeCompare(node1, node2) < 0) {
@@ -92,10 +106,21 @@ int main(int argc, char *argv[]) {
         listInsert(list, newNode);
     }
 
-    /* traverse tree (list->head) to get codes, put codes into table */
+    /* traverse the tree (list->head->data) to get codes for each character */
+    codes = (char **) malloc(sizeof(char *) * codesLen);
+    for (i = 0; i < codesLen; i++) {
+        codes[i] = NULL;
+    }
+    createCodes(list->head->data, codes, NULL, 0);
+    printCodes(codes, codesLen);
 
     /* cleanup */
-    free(charHistogram);
+    for (i = 0; i < codesLen; i++) {
+        if (codes[i] != NULL) {
+            free(codes[i]);
+        }
+    }
+    free(codes);
     listDestroy(list);
     return 0;
 }
